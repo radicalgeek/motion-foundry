@@ -1,112 +1,195 @@
 # Motion Foundry
 
-Motion Foundry is a local, agent-first, multi-brand system for code-driven motion. One versioned project model drives animated teaching inserts, title scenes, social formats, explainers, long-form assemblies, stills, thumbnails, contact sheets and transparent overlays.
+**Motion Foundry creates animated graphics and assembles videos on your own computer.** Describe the scenes, text, diagrams, timing and media in a JSON project, then preview and render it through a browser editor, command-line tool or API.
 
-The repository includes:
+It is designed for repeatable production: reuse a layout, change the content, apply a custom brand and produce another video. AI agents and scripts can use the same project format and tools as the human editor.
 
-- deterministic responsive SVG/frame runtime and FFmpeg exporter;
-- a Neutral base brand pack and support for private custom packs;
-- twelve foundation, teaching, social and long-form components/templates;
-- canonical v2 projects with scenes, layers, narration, music, captions, presenter/demo/video tracks and markers;
-- static QA, semantic brand enforcement, exact timing checks and render manifests;
-- legacy social-format migration with a generic example;
-- local JSON API, MCP server and CLI with discovery, authoring, inspection and asynchronous rendering;
-- Motion Studio with template authoring, project/scene properties, source view, exact-frame transport, safe areas, QA and render queue;
-- persistent projects, optimistic patches, idempotency, cached/resumable jobs, variants and asset registration;
-- brand-pack onboarding and generic demonstration fixtures.
+The renderer runs locally using **SVG, Sharp and FFmpeg**. It can combine its graphics with video, images, narration, music and captions that you supply. Footage from cameras, screen recordings or external generation tools can be brought into a composition.
 
-## Run it
+## What can I use it for?
 
-Requirements: Node 22+, npm and FFmpeg 7+.
+| Use | Examples |
+|---|---|
+| Animated explanations | Process diagrams, timelines, comparisons and system diagrams |
+| Video graphics | Opening titles, chapter cards, captions and closing scenes |
+| Social videos | Landscape, portrait, vertical and square versions of a sequence |
+| Video composition | Combine footage, a presenter, narration, music and graphics on a timed sequence |
+| Overlays and background replacement | Transparent graphics, green-screen footage and supplied subject mattes |
+| Automated production | Generate variations from a script, review sample frames and queue renders through an API |
+
+Outputs include MP4 videos, transparent WebM overlays, PNG stills, JPEG contact sheets and SRT caption files. Video renders also produce a JSON manifest identifying the project, brand, timing and source assets.
+
+The public distribution includes a **Neutral** visual style and generic examples. You can add private brand packs without changing the renderer.
+
+## Install and start
+
+Requirements:
+
+- **Node.js 22.12 or later** and npm.
+- **FFmpeg 7 or later**, with `ffmpeg` and `ffprobe` available on your command path.
+
+Check the tools before installing:
 
 ```bash
+node --version
+npm --version
+ffmpeg -version
+ffprobe -version
+```
+
+Clone the repository, install its dependencies and build all applications:
+
+```bash
+git clone https://github.com/radicalgeek/motion-foundry.git
+cd motion-foundry
 npm ci
 npm run build
 npm run seed
-npm run dev
+npm run start --workspace @motion-foundry/api
 ```
 
-Open [http://localhost:4311](http://localhost:4311). The Studio proxies its API to `http://localhost:4310`.
+Leave that terminal running and open **[http://localhost:4310](http://localhost:4310)**. The service hosts both the Studio and the API.
 
-Production build and single-service deployment:
+`npm run seed` creates eight sample projects and variants in local storage. It also generates demonstration audio with FFmpeg. On macOS it uses the built-in `say` command for sample narration; on other systems that narration track is silent, with the written captions still available. These are demonstration assets.
+
+## Make your first video
+
+### In the browser
+
+1. Open the Studio and choose **Getting started** from the project list. It contains a title, an animated process and a closing scene.
+2. Select a scene and change its title, body text, items or duration in **Properties**. Use **Add** to insert another scene template.
+3. Click **Save** to update the stored project and its preview.
+4. Open **QA** and resolve any errors before rendering.
+5. Click **Render**, then open the **Renders** tab. When the job is complete, use **Open MP4** to view the result.
+
+To start from scratch, click **+** beside **Projects**, enter a title and choose **Neutral** and an output preset. The **Source** tab lets you edit the complete JSON project; click **Apply source**, then **Save**.
+
+### From the command line
+
+With the API still running, open a second terminal in the repository directory. Render the supplied example:
 
 ```bash
-npm run build
-npm run dev:api
+npm run motion -- validate getting-started
+npm run motion -- still getting-started --time 6
+npm run motion -- contact-sheet getting-started
+npm run motion -- render getting-started --key getting-started-v1 --wait
 ```
 
-The API serves the built Studio at [http://localhost:4310](http://localhost:4310).
+Inspect the still and contact sheet before rendering. The commands return JSON containing their output paths. A successful video job has `"status": "complete"` and an `output` path to the finished file.
 
-## Agent workflow
+Create a simple six-second title video of your own:
 
-The intended sequence is explicit and repairable:
+```bash
+npm run motion -- create "Hello motion" --brand neutral --preset course-hd --template foundation.title
+npm run motion -- validate hello-motion
+npm run motion -- still hello-motion --time 2
+npm run motion -- render hello-motion --key hello-motion-v1 --wait
+```
+
+The project ID is returned by `create`; for this title it is `hello-motion`. Open the Studio to edit it further. Use a new render key after changing a project; repeating the same key retrieves the existing job.
+
+The `course-hd` preset is ordinary **1920 × 1080** landscape video. Discover other formats, brands and templates with:
 
 ```bash
 npm run motion -- brands
-npm run motion -- templates --ratio course-hd
-npm run motion -- create "Example sequence" --brand neutral --preset course-hd --template foundation.title
-npm run motion -- validate example-sequence
-npm run motion -- still example-sequence --time 4
-npm run motion -- contact-sheet example-sequence
-npm run motion -- render example-sequence --key example-sequence-v1 --wait
+npm run motion -- templates --ratio social-square
+npm run motion -- components
 ```
 
-The CLI is a thin client over the JSON API. Set `MOTION_API` to change its endpoint.
+## How projects work
 
-The stdio MCP server exposes the same workflow:
+A project specifies its brand, output preset, frame rate and ordered scenes. Each scene has a template, content and duration. Optional layers and timed tracks add images, footage, narration, music or captions. The total project duration matches the sum of its scene durations.
+
+For a complete JSON example, see [`examples/getting-started/project.motion.json`](examples/getting-started/project.motion.json). The supplied examples demonstrate:
+
+- **getting-started** — titles, an animated process, captions and demo audio, plus four output-format variants;
+- **process-flow** — a portrait workflow diagram;
+- **system-overview** — a square input/process/output diagram;
+- **terminal-demo** — an animated sample command-line session.
+
+Still and contact-sheet previews show the graphics renderer. Inspect the finished video when checking footage, audio or video compositing.
+
+## Use the HTTP API or an AI agent
+
+The Studio, CLI and MCP server all use the same JSON API at `http://localhost:4310/api`. A script can create, read, patch, validate and render projects without operating the browser.
+
+For example, create a title project over HTTP:
 
 ```bash
-MOTION_API=http://localhost:4310/api npm run start -w @motion-foundry/mcp
+curl http://localhost:4310/api/projects \
+  -H 'Content-Type: application/json' \
+  -d '{"title":"API example","brand":"neutral","preset":"course-hd","template":"foundation.title"}'
 ```
 
-Its tools include `brands.list`, `templates.list`, `components.list`, `projects.create`, `projects.patch`, `validate`, `inspect`, `still`, `contact_sheet`, `render`, `render.status`, `variants.create` and `migrate.social_v1`.
+Submit a complete project JSON to the same endpoint for more complex sequences. Updates use `PATCH /api/projects/:id` with `expectedVersion` and a `patch` object, so clients can detect conflicting edits. See the [API reference](docs/api.md) for endpoints and the workflow.
 
-## Reference projects
+For MCP clients, build the project and keep the API running, then configure a stdio server using the compiled entry point. Clients that use `mcpServers` entries can use this structure; replace the example installation path:
 
-`npm run seed` installs these into the local project store:
+```json
+{
+  "mcpServers": {
+    "motion-foundry": {
+      "command": "node",
+      "args": ["/absolute/path/to/motion-foundry/apps/mcp/dist/index.js"],
+      "env": {
+        "MOTION_API": "http://localhost:4310/api"
+      }
+    }
+  }
+}
+```
 
-- `getting-started`: a 20-second sequence with titles, process steps, captions and generated demo audio;
-- four responsive variants of the getting-started sequence;
-- `process-flow`: an example workflow in portrait format;
-- `system-overview`: a simple input/process/output diagram;
-- `terminal-demo`: a sample CLI session.
+An agent's normal workflow is to discover brands and templates, create or patch a project, validate it, inspect representative frames, then render and poll the job. Available tools include `brands.list`, `templates.list`, `projects.create`, `projects.patch`, `validate`, `inspect`, `still`, `contact_sheet`, `render` and `render.status`.
 
-Source fixtures remain under [`examples`](./examples) and the social-v1 import fixture is under [`fixtures`](./fixtures).
+The CLI also accepts `MOTION_API` when connecting to another instance. Include the `/api` suffix in that URL.
 
-## Data and outputs
+## Add your own branding and media
 
-The public repository contains application source, documentation, tests and example specifications. Local projects, media assets, render jobs, generated outputs and credentials are excluded by `.gitignore`. Custom business packs belong in `.motion-foundry/brands/`; the repository ships only the Neutral pack and generic demonstrations.
+Create a local brand pack from Neutral:
 
-Runtime state is intentionally local and reviewable:
+```bash
+npm run motion -- brand init my-brand --name "My Brand" --base neutral
+```
+
+The pack is stored in `.motion-foundry/brands/my-brand.json`. Edit its colours, fonts and motion settings, then restart the API to load those file changes. Create projects with `--brand my-brand`. See [brand onboarding](docs/brand-onboarding.md) for the fields to configure.
+
+Place your media in `.motion-foundry/assets/` and reference it as `assets/filename.ext` in the project JSON. The API also provides `POST /api/assets/register` for programmatic registration. Media tracks define when an asset starts and how long it is used; video composition settings control fitting, cropping, layering, keys and mattes. See [the composition architecture](docs/architecture.md#long-form-media) for these controls.
+
+## Where files are stored
+
+Local working data lives in the ignored `.motion-foundry/` directory:
 
 ```text
 .motion-foundry/
-  projects/   canonical project JSON
-  brands/     locally onboarded versioned brand packs
-  assets/     registered assets and generated demo audio
-  jobs/       resumable render jobs
-  renders/    MP4, PNG, contact sheets and manifests
+  projects/   saved JSON project specifications
+  brands/     private custom brand packs
+  assets/     your media and generated demo audio
+  jobs/       render status and queue records
+  renders/    finished videos, stills, contact sheets, captions and manifests
 ```
 
-The API is intended for a trusted local workstation. It has no authentication layer; keep it behind local network access controls rather than exposing it directly to the public internet.
+Your projects, business packs, media and outputs stay outside the tracked source. Back up this directory separately if you need to preserve your work.
 
-Projects use optimistic version checks. Render requests accept idempotency keys and emit a manifest containing the spec hash, brand version, engine version, dimensions, duration and frame count.
+The API is intended for a trusted local workstation and has no authentication layer. Keep it behind local access controls rather than exposing it directly to the public internet.
 
-## Zero-cost renderer policy
+## Development and checks
 
-Motion Foundry uses only the local SVG, Sharp and FFmpeg renderer. Remotion, paid APIs, hosted renderers, subscriptions and metered services are explicitly excluded from this project. Agents must preserve this constraint when extending the runtime, Studio or automation surfaces.
+For live API and Studio development:
 
-See [`docs/architecture.md`](./docs/architecture.md), [`docs/api.md`](./docs/api.md), and [`docs/brand-onboarding.md`](./docs/brand-onboarding.md).
+```bash
+npm run dev
+```
 
-## Verification
+The development Studio runs at [http://localhost:4311](http://localhost:4311) and proxies API requests to port `4310`. Stop the single-service API first to avoid a port conflict.
+
+Run the source checks with:
 
 ```bash
 npm run typecheck
 npm test
 npm run build
-npm run seed
-npm run motion -- validate getting-started
-npm run motion -- contact-sheet getting-started
-npm run motion -- render getting-started --key acceptance-v1 --wait
-ffprobe .motion-foundry/renders/*.mp4
 ```
+
+The renderer uses local SVG, Sharp and FFmpeg throughout. Contributions should preserve that rendering path and avoid adding paid or hosted rendering dependencies.
+
+Further documentation: [architecture](docs/architecture.md), [API](docs/api.md), [brand onboarding](docs/brand-onboarding.md).
