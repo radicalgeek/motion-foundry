@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.motion-foundry/
+renders/
+*.log
+.DS_Store
+coverage/
+
+# Local build metadata and credentials
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+*.pem
+*.key

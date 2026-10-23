@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "2.0",
+  "id": "getting-started",
+  "version": 1,
+  "title": "Getting started",
+  "brand": {
+    "id": "neutral",
+    "version": "1.0.0"
+  },
+  "preset": "course-hd",
+  "fps": 30,
+  "duration": 20,
+  "scenes": [
+    {
+      "id": "opening",
+      "type": "example",
+      "template": "foundation.title",
+      "duration": 4,
+      "content": {
+        "title": "A simple motion sequence",
+        "eyebrow": "GETTING STARTED",
+        "body": "Combine titles, diagrams and captions in one project."
+      },
+      "captions": [
+        {
+          "start": 0.3,
+          "end": 3.8,
+          "text": "Combine titles, diagrams and captions in one project."
+        }
+      ],
+      "narration": {
+        "text": "Combine titles, diagrams and captions in one project."
+      }
+    },
+    {
+      "id": "steps",
+      "type": "example",
+      "template": "teaching.process",
+      "duration": 12,
+      "content": {
+        "title": "Create a short sequence",
+        "items": [
+          "Choose a template",
+          "Write the content",
+          "Set the timing",
+          "Preview the frames",
+          "Render the video",
+          "Save the result"
+        ]
+      },
+      "captions": [
+        {
+          "start": 0.3,
+          "end": 5.5,
+          "text": "Choose a template, write the content and set the timing."
+        },
+        {
+          "start": 5.5,
+          "end": 11.8,
+          "text": "Preview the frames, render the video and save the result."
+        }
+      ],
+      "narration": {
+        "text": "Choose a template, write the content and set the timing. Preview the frames, render the video and save the result."
+      }
+    },
+    {
+      "id": "closing",
+      "type": "example",
+      "template": "foundation.closing",
+      "duration": 4,
+      "content": {
+        "title": "Your sequence is ready",
+        "body": "Try another layout or add a scene.",
+        "cta": "Make it your own."
+      },
+      "captions": [
+        {
+          "start": 0.3,
+          "end": 3.8,
+          "text": "Your sequence is ready. Try another layout or add a scene."
+        }
+      ],
+      "narration": {
+        "text": "Your sequence is ready. Try another layout or add a scene."
+      }
+    }
+  ],
+  "metadata": {
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "language": "en-GB"
+  },
+  "qa": {
+    "safeArea": 0.06,
+    "captionsRequired": true
+  },
+  "tracks": [
+    {
+      "id": "demo-bed",
+      "type": "music",
+      "asset": "assets/demo-bed.wav",
+      "start": 0,
+      "duration": 20,
+      "volume": 0.08,
+      "ducking": 0.65
+    },
+    {
+      "id": "demo-narration",
+      "type": "narration",
+      "asset": "assets/demo-narration.wav",
+      "start": 0,
+      "duration": 20,
+      "volume": 1
+    }
+  ],
+  "markers": [
+    {
+      "time": 0,
+      "label": "Opening"
+    },
+    {
+      "time": 4,
+      "label": "Steps"
+    },
+    {
+      "time": 16,
+      "label": "Closing"
+    }
+  ]
+}

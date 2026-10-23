@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "2.0",
+  "id": "system-overview",
+  "version": 1,
+  "title": "A simple system diagram",
+  "brand": {
+    "id": "neutral",
+    "version": "1.0.0"
+  },
+  "preset": "social-square",
+  "fps": 30,
+  "duration": 16,
+  "scenes": [
+    {
+      "id": "open",
+      "type": "example",
+      "template": "foundation.title",
+      "duration": 4,
+      "content": {
+        "title": "Show how the parts connect",
+        "eyebrow": "DIAGRAM EXAMPLE"
+      }
+    },
+    {
+      "id": "diagram",
+      "type": "example",
+      "template": "teaching.network",
+      "duration": 8,
+      "content": {
+        "title": "From input to output",
+        "nodes": [
+          {
+            "id": "input",
+            "label": "Input",
+            "detail": "source data"
+          },
+          {
+            "id": "process",
+            "label": "Process",
+            "detail": "transformation"
+          },
+          {
+            "id": "output",
+            "label": "Output",
+            "detail": "result"
+          }
+        ]
+      }
+    },
+    {
+      "id": "close",
+      "type": "example",
+      "template": "foundation.closing",
+      "duration": 4,
+      "content": {
+        "title": "A reusable diagram",
+        "body": "Replace these sample nodes with your own."
+      }
+    }
+  ],
+  "metadata": {
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "language": "en-GB"
+  },
+  "qa": {
+    "safeArea": 0.06
+  }
+}

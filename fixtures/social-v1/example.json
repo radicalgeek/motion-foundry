@@ -1,0 +1,41 @@
+{
+  "title": "Legacy format example",
+  "brand": "neutral",
+  "width": 1080,
+  "height": 1350,
+  "fps": 30,
+  "scenes": [
+    {
+      "duration": 4,
+      "title": "Import an earlier project format",
+      "subtitle": "Import ordinary scene JSON."
+    },
+    {
+      "duration": 5,
+      "title": "Motion cues migrate",
+      "elements": [
+        {
+          "type": "text",
+          "text": "fade",
+          "animation": "fade",
+          "delay": 0.2,
+          "duration": 0.5
+        },
+        {
+          "type": "text",
+          "text": "rise",
+          "animation": "rise",
+          "delay": 0.4,
+          "duration": 0.5
+        },
+        {
+          "type": "text",
+          "text": "pulse",
+          "animation": "pulse",
+          "delay": 0.8,
+          "duration": 0.6
+        }
+      ]
+    }
+  ]
+}

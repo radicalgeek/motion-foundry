@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "2.0",
+  "id": "terminal-demo",
+  "version": 1,
+  "title": "Example CLI session",
+  "brand": {
+    "id": "neutral",
+    "version": "1.0.0"
+  },
+  "preset": "course-hd",
+  "fps": 30,
+  "duration": 9,
+  "scenes": [
+    {
+      "id": "terminal",
+      "type": "example",
+      "template": "teaching.terminal",
+      "duration": 9,
+      "content": {
+        "title": "Validate and render a project",
+        "code": "$ motion validate getting-started\n\u2713 Project valid\n\n$ motion render getting-started --wait\nrendering frames...\n\u2713 Video and manifest ready"
+      }
+    }
+  ],
+  "metadata": {
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "language": "en-GB"
+  },
+  "qa": {
+    "safeArea": 0.06
+  }
+}

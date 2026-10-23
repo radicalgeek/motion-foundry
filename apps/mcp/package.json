@@ -1,0 +1,1 @@
+{"name":"@motion-foundry/mcp","version":"1.0.0","type":"module","bin":{"motion-foundry-mcp":"src/index.ts"},"scripts":{"start":"tsx src/index.ts","build":"tsc -p tsconfig.json"},"dependencies":{"@modelcontextprotocol/server":"2.0.0-beta.4","zod":"^4.0.0"},"devDependencies":{"@types/node":"^24.0.0","tsx":"^4.20.0","typescript":"^5.8.0"}}

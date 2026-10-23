@@ -1,0 +1,40 @@
+{
+  "name": "motion-foundry",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,studio -c orange,cyan \"npm run dev -w @motion-foundry/api\" \"npm run dev -w @motion-foundry/studio\"",
+    "dev:api": "npm run dev -w @motion-foundry/api",
+    "dev:studio": "npm run dev -w @motion-foundry/studio",
+    "build": "npm run build -w @motion-foundry/core && npm run build -w @motion-foundry/studio && npm run build -w @motion-foundry/api && npm run build -w @motion-foundry/cli && npm run build -w @motion-foundry/mcp",
+    "test": "vitest run",
+    "typecheck": "tsc -b",
+    "motion": "node apps/cli/dist/index.js",
+    "motion:dev": "tsx apps/cli/src/index.ts",
+    "seed": "node --import tsx scripts/seed.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "concurrently": "^9.2.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  },
+  "description": "Local, agent-first motion production with a shared Studio, CLI, HTTP API and MCP server.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/radicalgeek/motion-foundry.git"
+  },
+  "bugs": {
+    "url": "https://github.com/radicalgeek/motion-foundry/issues"
+  },
+  "homepage": "https://github.com/radicalgeek/motion-foundry#readme",
+  "engines": {
+    "node": ">=22"
+  }
+}

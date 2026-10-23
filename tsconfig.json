@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    {"path": "packages/core"},
+    {"path": "apps/api"},
+    {"path": "apps/cli"},
+    {"path": "apps/studio"},
+    {"path": "apps/mcp"}
+  ]
+}

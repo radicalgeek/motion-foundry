@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "2.0",
+  "id": "process-flow",
+  "version": 1,
+  "title": "An example workflow",
+  "brand": {
+    "id": "neutral",
+    "version": "1.0.0"
+  },
+  "preset": "social-portrait",
+  "fps": 30,
+  "duration": 18,
+  "scenes": [
+    {
+      "id": "open",
+      "type": "example",
+      "template": "foundation.title",
+      "duration": 4,
+      "content": {
+        "title": "From outline to finished video",
+        "eyebrow": "WORKFLOW EXAMPLE"
+      }
+    },
+    {
+      "id": "process",
+      "type": "example",
+      "template": "teaching.process",
+      "duration": 10,
+      "content": {
+        "title": "Plan, create, review, share",
+        "items": [
+          "Outline",
+          "Draft",
+          "Preview",
+          "Review",
+          "Render",
+          "Share"
+        ]
+      }
+    },
+    {
+      "id": "close",
+      "type": "example",
+      "template": "foundation.closing",
+      "duration": 4,
+      "content": {
+        "title": "Keep the process clear",
+        "cta": "Adapt this example."
+      }
+    }
+  ],
+  "metadata": {
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "language": "en-GB"
+  },
+  "qa": {
+    "safeArea": 0.06
+  }
+}
